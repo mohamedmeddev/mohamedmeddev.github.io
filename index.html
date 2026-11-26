@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mohamed Med — n8n Automation Engineer | Production Workflows</title>
+<meta name="description" content="n8n automation engineer building production workflows: multi-API orchestration, embedding-based deduplication, rate limiting, audit logging, and LLM-assisted error handling. Available for white-label work.">
+<meta name="author" content="Mohamed Med">
+<link rel="canonical" href="https://mohamedmeddev.github.io/">
+
+<link rel="alternate" hreflang="en" href="https://mohamedmeddev.github.io/">
+<link rel="alternate" hreflang="ar" href="https://mohamedmeddev.github.io/ar/">
+<link rel="alternate" hreflang="x-default" href="https://mohamedmeddev.github.io/">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ar_AR">
+<meta property="og:title" content="Mohamed Med — n8n Automation Engineer">
+<meta property="og:description" content="Production n8n systems: 99-node content pipelines, 76-node security scanners, LLM-assisted error diagnostics. Available for white-label builds.">
+<meta property="og:url" content="https://mohamedmeddev.github.io/">
+<meta property="og:image" content="https://mohamedmeddev.github.io/og.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0a0e14;
+    --panel:#10161f;
+    --panel-2:#141c27;
+    --line:#1e2a38;
+    --line-2:#2a3644;
+    --ink:#e6edf6;
+    --muted:#8899ad;
+    --dim:#5c6b7d;
+    --accent:#35d6a4;
+    --accent-dim:#0d7a5c;
+    --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  a{color:inherit}
+
+  /* ---------- nav ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;background:rgba(10,14,20,.88);
+    backdrop-filter:blur(12px);border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{font-weight:700;letter-spacing:-.02em;font-size:.98rem}
+  .brand span{color:var(--accent)}
+  .navlinks{display:flex;gap:26px;font-size:.87rem}
+  .navlinks a{color:var(--muted);text-decoration:none;transition:color .18s}
+  .navlinks a:hover{color:var(--ink)}
+  .navlinks .ar{color:var(--dim);border-left:1px solid var(--line);padding-left:26px}
+  @media(max-width:700px){.navlinks a:not(.ar){display:none}}
+
+  /* ---------- hero ---------- */
+  header{position:relative;padding:88px 0 76px;overflow:hidden}
+  header::before{
+    content:'';position:absolute;top:-180px;right:-120px;width:640px;height:640px;
+    background:radial-gradient(circle,rgba(53,214,164,.11),transparent 66%);pointer-events:none;
+  }
+  .status{
+    display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);
+    font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--accent);border:1px solid rgba(53,214,164,.26);
+    background:rgba(53,214,164,.06);border-radius:6px;padding:6px 12px;margin-bottom:28px;
+  }
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);
+       box-shadow:0 0 0 3px rgba(53,214,164,.18)}
+  h1{
+    font-size:clamp(2rem,5.2vw,3.35rem);font-weight:800;line-height:1.12;
+    letter-spacing:-.035em;max-width:19ch;margin-bottom:24px;
+  }
+  h1 em{font-style:normal;color:var(--accent)}
+  .sub{font-size:1.06rem;color:var(--muted);max-width:60ch;margin-bottom:36px}
+  .sub strong{color:var(--ink);font-weight:600}
+  .actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:44px}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:8px;
+    font-size:.92rem;font-weight:600;text-decoration:none;transition:transform .15s,opacity .18s;
+  }
+  .btn:hover{transform:translateY(-2px)}
+  .btn-primary{background:var(--accent);color:#02110c}
+  .btn-ghost{background:var(--panel);border:1px solid var(--line);color:var(--ink)}
+
+  .facts{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;
+  }
+  .fact{background:var(--panel);padding:18px 20px}
+  .fact b{display:block;font-family:var(--mono);font-size:1.35rem;font-weight:500;color:var(--accent);letter-spacing:-.02em}
+  .fact span{font-size:.76rem;color:var(--dim);text-transform:uppercase;letter-spacing:.08em}
+
+  /* ---------- sections ---------- */
+  section{padding:76px 0;border-top:1px solid var(--line)}
+  .label{
+    font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:14px;
+  }
+  h2{font-size:clamp(1.5rem,3.4vw,2rem);font-weight:700;letter-spacing:-.025em;margin-bottom:12px}
+  .intro{color:var(--muted);max-width:64ch;margin-bottom:44px;font-size:1rem}
+
+  /* ---------- case studies ---------- */
+  .case{
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:32px;margin-bottom:16px;transition:border-color .2s;
+  }
+  .case:hover{border-color:rgba(53,214,164,.3)}
+  .case-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;margin-bottom:20px}
+  .case h3{font-size:1.18rem;font-weight:700;letter-spacing:-.015em}
+  .case-role{font-family:var(--mono);font-size:.72rem;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;text-align:right}
+  .case-body{display:grid;gap:26px}
+  @media(min-width:760px){.case-body{grid-template-columns:1fr 1fr 1fr}}
+  .col h4{
+    font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:7px;font-weight:500;
+  }
+  .col p{font-size:.91rem;color:var(--muted);line-height:1.72}
+  .specs{
+    display:flex;gap:22px;flex-wrap:wrap;margin-top:24px;padding-top:20px;border-top:1px solid var(--line);
+  }
+  .spec{font-family:var(--mono);font-size:.76rem;color:var(--dim)}
+  .spec b{color:var(--ink);font-weight:500}
+  .stack{margin-top:18px;display:flex;gap:7px;flex-wrap:wrap}
+  .chip{
+    font-family:var(--mono);font-size:.7rem;color:var(--muted);
+    border:1px solid var(--line);border-radius:4px;padding:3px 8px;
+  }
+
+  /* ---------- differentiator ---------- */
+  .diff{
+    background:linear-gradient(135deg,rgba(53,214,164,.07),transparent 60%);
+    border:1px solid rgba(53,214,164,.22);border-radius:14px;padding:38px;
+  }
+  .diff h2{max-width:26ch}
+  .diff p{color:var(--muted);max-width:66ch;margin-bottom:26px}
+  .codebox{
+    background:#070b11;border:1px solid var(--line);border-radius:8px;
+    padding:20px 22px;font-family:var(--mono);font-size:.8rem;line-height:1.85;
+    color:var(--muted);overflow-x:auto;
+  }
+  .codebox .k{color:#7dd3fc}
+  .codebox .s{color:var(--accent)}
+  .codebox .c{color:var(--dim)}
+
+  /* ---------- services ---------- */
+  .grid3{display:grid;gap:16px}
+  @media(min-width:780px){.grid3{grid-template-columns:repeat(3,1fr)}}
+  .svc{
+    background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:26px;
+    transition:transform .2s,border-color .2s;
+  }
+  .svc:hover{transform:translateY(-3px);border-color:rgba(53,214,164,.3)}
+  .svc h3{font-size:1.02rem;font-weight:600;margin-bottom:9px}
+  .svc p{font-size:.9rem;color:var(--muted)}
+  .svc .price{
+    display:block;margin-top:18px;padding-top:15px;border-top:1px solid var(--line);
+    font-family:var(--mono);font-size:.78rem;color:var(--accent);
+  }
+
+  /* ---------- process ---------- */
+  .steps{display:grid;gap:0;border-top:1px solid var(--line);margin-top:12px}
+  .step{
+    display:grid;gap:16px;padding:22px 0;border-bottom:1px solid var(--line);
+    align-items:baseline;
+  }
+  @media(min-width:700px){.step{grid-template-columns:52px 200px 1fr}}
+  .step-n{font-family:var(--mono);font-size:.8rem;color:var(--accent)}
+  .step b{font-weight:600;font-size:.95rem}
+  .step p{font-size:.9rem;color:var(--muted)}
+
+  /* ---------- cta ---------- */
+  .cta{text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:56px 28px}
+  .cta h2{margin-bottom:14px}
+  .cta p{color:var(--muted);max-width:52ch;margin:0 auto 30px}
+  .mail{
+    font-family:var(--mono);font-size:.9rem;color:var(--accent);text-decoration:none;
+    border-bottom:1px dashed rgba(53,214,164,.4);padding-bottom:2px;
+  }
+
+  footer{
+    padding:36px 0;border-top:1px solid var(--line);color:var(--dim);font-size:.83rem;
+    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  }
+  footer a{color:var(--muted);text-decoration:none}
+  footer a:hover{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     EDIT BEFORE PUBLISHING — search for "EDIT:"
+     EDIT 1: mohamedmeddev (in head, og tags, canonical)
+     EDIT 2: email address
+     EDIT 3: LinkedIn / Loom / Telegram links
+     These are the only things you must change.
+     ============================================================ -->
+
+<nav>
+  <div class="wrap">
+    <div class="brand">Mohamed Med<span>.</span></div>
+    <div class="navlinks">
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#contact">Contact</a>
+      <!-- language switcher: Arabic version lives at /ar/ -->
+      <a class="ar" href="ar/">العربية</a>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <div class="status"><span class="dot"></span>Available — 15–20 h/week</div>
+
+    <h1>I build n8n systems that <em>survive production</em>.</h1>
+
+    <p class="sub">
+      Multi-API orchestration, embedding-based deduplication, per-user rate limiting,
+      audit logging — and workflows that <strong>diagnose their own failures</strong>
+      instead of dumping a stack trace on you.
+    </p>
+
+    <div class="actions">
+      <a class="btn btn-primary" href="mailto:mohamedmeddev@gmail.com?subject=n8n%20build%20—%20enquiry">Email me →</a>
+      <!-- EDIT: link your Loom walkthrough video -->
+      <a class="btn btn-ghost" href="#work">See the builds</a>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><b>99</b><span>largest workflow</span></div>
+      <div class="fact"><b>5</b><span>production systems</span></div>
+      <div class="fact"><b>3</b><span>security APIs integrated</span></div>
+      <div class="fact"><b>async</b><span>written specs only</span></div>
+    </div>
+  </div>
+</header>
+
+<section id="work">
+  <div class="wrap">
+    <div class="label">Selected work</div>
+    <h2>Systems, not scripts</h2>
+    <p class="intro">
+      Each of these runs unattended. They handle failures, avoid burning API quotas,
+      and log everything that happens.
+    </p>
+
+    <!-- ---------------- CASE 1 ---------------- -->
+    <article class="case">
+      <div class="case-head">
+        <h3>Autonomous content pipeline</h3>
+        <div class="case-role">99 nodes · 4 sources</div>
+      </div>
+      <div class="case-body">
+        <div class="col">
+          <h4>Problem</h4>
+          <p>
+            Daily publishing from four sources. Roughly 60% of incoming items were duplicates,
+            and editorial work consumed several hours every morning before anything shipped.
+          </p>
+        </div>
+        <div class="col">
+          <h4>Approach</h4>
+          <p>
+            Every article is converted to a semantic embedding, then compared by vector distance
+            rather than keywords — duplicates are dropped before a single token is spent on drafting.
+            Unique items go through LLM drafting, image generation, and publishing, with every step
+            persisted to Postgres.
+          </p>
+        </div>
+        <div class="col">
+          <h4>Result</h4>
+          <p>
+            Zero human steps in the normal path. When something breaks, the run is routed to a
+            separate error workflow that asks an LLM to explain the failure in plain language
+            before alerting.
+          </p>
+        </div>
+      </div>
+      <div class="specs">
+        <div class="spec">nodes <b>99</b></div>
+        <div class="spec">sources <b>4</b></div>
+        <div class="spec">dedup <b>embedding-based</b></div>
+        <div class="spec">storage <b>Postgres</b></div>
+        <div class="spec">recovery <b>retry + LLM triage</b></div>
+      </div>
+      <div class="stack">
+        <span class="chip">n8n</span><span class="chip">Jina Embeddings</span>
+        <span class="chip">LLM</span><span class="chip">Postgres</span>
+        <span class="chip">Telegram API</span>
+      </div>
+    </article>
+
+    <!-- ---------------- CASE 2 ---------------- -->
+    <article class="case">
+      <div class="case-head">
+        <h3>Multi-source URL security scanner</h3>
+        <div class="case-role">76 nodes · 3 threat APIs</div>
+      </div>
+      <div class="case-body">
+        <div class="col">
+          <h4>Problem</h4>
+          <p>
+            Users submit suspicious links. Checking them by hand is slow, and a single API is not
+            enough — while every check consumes a limited daily quota.
+          </p>
+        </div>
+        <div class="col">
+          <h4>Approach</h4>
+          <p>
+            Shortened URLs are resolved first, then scanned in parallel against VirusTotal and
+            Google Safe Browsing. VirusTotal analyses are submitted and polled across five cycles
+            until complete. Results are cached so repeated links never re-spend quota, usage is
+            rate-limited per user, and every input is parameterised before touching the database.
+          </p>
+        </div>
+        <div class="col">
+          <h4>Result</h4>
+          <p>
+            Response time went from minutes of manual checking to seconds. Quota is preserved,
+            and every scan leaves a full audit row in Postgres.
+          </p>
+        </div>
+      </div>
+      <div class="specs">
+        <div class="spec">nodes <b>76</b></div>
+        <div class="spec">APIs <b>VirusTotal · Safe Browsing</b></div>
+        <div class="spec">rate limit <b>per user</b></div>
+        <div class="spec">cache <b>yes</b></div>
+        <div class="spec">SQL <b>parameterised</b></div>
+      </div>
+      <div class="stack">
+        <span class="chip">n8n</span><span class="chip">VirusTotal API</span>
+        <span class="chip">Google Safe Browsing</span><span class="chip">Postgres</span>
+      </div>
+    </article>
+
+    <!-- ---------------- CASE 3 ---------------- -->
+    <article class="case">
+      <div class="case-head">
+        <h3>Resilient media retrieval service</h3>
+        <div class="case-role">66 nodes · failover</div>
+      </div>
+      <div class="case-body">
+        <div class="col">
+          <h4>Problem</h4>
+          <p>
+            Users requested media links that frequently failed — upstream services go down,
+            files exceed limits, and one user can exhaust the shared allowance for everyone.
+          </p>
+        </div>
+        <div class="col">
+          <h4>Approach</h4>
+          <p>
+            A primary extraction API with an automatic fallback, file-size validation before
+            download, a cache layer to avoid repeat work, per-user rate gating, separate audio
+            and video paths, and a quality fallback when the requested format is unavailable.
+          </p>
+        </div>
+        <div class="col">
+          <h4>Result</h4>
+          <p>
+            Failures return a clear message instead of silence. One heavy user no longer degrades
+            the service for others, and every request is logged for usage reporting.
+          </p>
+        </div>
+      </div>
+      <div class="specs">
+        <div class="spec">nodes <b>66</b></div>
+        <div class="spec">failover <b>primary + backup</b></div>
+        <div class="spec">quota <b>per-user gate</b></div>
+        <div class="spec">storage <b>Postgres</b></div>
+      </div>
+      <div class="stack">
+        <span class="chip">n8n</span><span class="chip">Cobalt API</span>
+        <span class="chip">yt-dlp</span><span class="chip">Postgres</span>
+      </div>
+    </article>
+
+    <!-- ---------------- CASE 4 ---------------- -->
+    <article class="case">
+      <div class="case-head">
+        <h3>Arabic document localization pipeline</h3>
+        <div class="case-role">multi-agent · RTL</div>
+      </div>
+      <div class="case-body">
+        <div class="col">
+          <h4>Problem</h4>
+          <p>
+            Translating structured documents into Arabic destroys the layout — tables, numbering,
+            and heading hierarchy all break, and fixing them by hand costs hours per file.
+          </p>
+        </div>
+        <div class="col">
+          <h4>Approach</h4>
+          <p>
+            A multi-agent pipeline: one agent extracts document structure, one translates with a
+            controlled termbase, one reviews, and one rebuilds the layout for correct RTL rendering —
+            including tables and typography. Output is reviewed by a native Arabic speaker.
+          </p>
+        </div>
+        <div class="col">
+          <h4>Why it matters</h4>
+          <p>
+            Arabic quality is the one thing a monolingual team cannot verify internally.
+            This pipeline produces a formatted Arabic document from a foreign-language source,
+            with human review limited to checking, not rebuilding.
+          </p>
+        </div>
+      </div>
+      <div class="specs">
+        <div class="spec">agents <b>4</b></div>
+        <div class="spec">layout <b>preserved</b></div>
+        <div class="spec">direction <b>RTL rebuilt</b></div>
+        <div class="spec">review <b>native speaker</b></div>
+      </div>
+      <div class="stack">
+        <span class="chip">n8n</span><span class="chip">LLM agents</span>
+        <span class="chip">DOCX/PDF</span><span class="chip">Arabic NLP</span>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="diff">
+      <div class="label">The difference</div>
+      <h2>Most workflows tell you they failed. Mine tell you why.</h2>
+      <p>
+        A generic error handler sends you a stack trace at 2am and you spend the next hour
+        guessing. Every system I build routes failures to a dedicated handler that feeds the
+        context to an LLM and produces a readable diagnosis — what broke, where, and what the
+        likely cause is.
+      </p>
+      <div class="codebox">
+<span class="c">// error workflow — diagnosis, not a stack trace</span>
+<span class="k">const</span> ctx = $json.execution;
+<span class="k">const</span> diagnosis = <span class="k">await</span> llm.explain({
+  workflow: ctx.workflowName,
+  failedNode: ctx.lastNodeExecuted,
+  error: ctx.error.message,
+  input: ctx.error.context
+});
+<span class="s">→ "Cobalt fallback returned 429. Primary quota exhausted.
+   Expected recovery in ~4 min. Users were notified."</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <div class="label">Engagements</div>
+    <h2>How agencies work with me</h2>
+    <p class="intro">
+      White-label under your brand. You keep the client relationship; I build, document, and hand over.
+    </p>
+
+    <div class="grid3">
+      <div class="svc">
+        <h3>Single integration</h3>
+        <p>
+          One workflow connecting your stack: form → enrichment → CRM → notification.
+          Delivered with a written handover and a Loom walkthrough.
+        </p>
+        <span class="price">from $80 · 2–3 days</span>
+      </div>
+      <div class="svc">
+        <h3>Production build</h3>
+        <p>
+          Multi-API pipeline with error handling, rate limiting, caching and database logging.
+          Built to run unattended.
+        </p>
+        <span class="price">$400 – $900 · 1–2 weeks</span>
+      </div>
+      <div class="svc">
+        <h3>Audit &amp; hardening</h3>
+        <p>
+          Take an existing workflow that breaks in production and fix it: retries, idempotency,
+          secrets out of nodes, logging, and a written findings report.
+        </p>
+        <span class="price">$120 flat · 2 days</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <div class="label">Process</div>
+    <h2>Async by default</h2>
+    <p class="intro">
+      No calls required. Everything is written down, so nothing depends on memory or accent.
+    </p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">01</div><b>Written spec</b>
+        <p>You send the requirement in a paragraph. I return a scoped spec with edge cases and a fixed price.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div><b>50% deposit</b>
+        <p>Work starts on deposit. Scope changes are quoted before any work begins.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div><b>Build + staging</b>
+        <p>You get a testable build on your own credentials before it touches production.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">04</div><b>Handover</b>
+        <p>Workflow JSON, written documentation, and a Loom walkthrough. Seven days of free bug fixes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="cta">
+      <div class="label">Next step</div>
+      <h2>Take one paid test task</h2>
+      <p>
+        $50, fixed scope, two days. If the output doesn't meet your standard, you don't pay.
+        It is a faster way to judge me than any CV.
+      </p>
+      <!-- EDIT: replace with your real email -->
+      <a class="mail" href="mailto:mohamedmeddev@gmail.com?subject=Paid%20test%20task">mohamedmeddev@gmail.com</a>
+      <div class="actions" style="justify-content:center;margin-top:28px;margin-bottom:0">
+        <a class="btn btn-ghost" href="https://linkedin.com/in/mohamedmeddev">LinkedIn</a>
+        <a class="btn btn-ghost" href="https://t.me/mohamedmeddev">Telegram</a>
+      </div>
+    </div>
+
+    <footer>
+      <span>© 2026 Mohamed Med · n8n automation engineer</span>
+      <span>Algeria · working with EU &amp; UK agencies · async only</span>
+    </footer>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Mohamed Med",
+  "jobTitle": "n8n Automation Engineer",
+  "description": "Builds production n8n workflows: multi-API orchestration, embedding-based deduplication, rate limiting, audit logging, LLM-assisted error handling.",
+  "url": "https://mohamedmeddev.github.io/",
+  "address": { "@type": "PostalAddress", "addressCountry": "DZ" },
+  "knowsAbout": ["n8n","workflow automation","API integration","PostgreSQL","LLM integration"]
+}
+</script>
+
+</body>
+</html>
